@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    padding: 2rem;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+    gap: 1rem;
+    place-content: space-around;
+    place-items: stretch;
+    list-style: none;
+}
+
+li,
+button,
+dialog button:hover,
+dialog {
+    border: 1px solid #ccc;
+    background-color: aliceblue;
+    color: black;
+}
+
+li,
+button {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    place-content: center;
+    place-items: center;
+    padding: 1rem;
+    transition: all 0.5s ease;
+    white-space: pre-line;
+    font-weight: 600;
+}
+
+li:hover {
+    transform: translateY(-4px);
+}
+
+li > * {
+    text-align: center;
+}
+
+button:hover {
+    border-color: white;
+    box-shadow: inset 1px 1px 1px #ccc;
+}
+
+.add-book {
+    margin-top: 4rem;
+    position: relative;
+}
+
+dialog {
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: auto;
+    padding: 1rem;
+    animation: close 0.5s forwards;
+    text-align: center;
+
+    &[open] {
+        animation: open 0.5s forwards;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 90%;
+}
+
+form > * {
+    font-size: 1.2rem;
+}
+
+form > label,
+fieldset > legend {
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+form > input {
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 0.2rem;
+}
+
+fieldset {
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+dialog button {
+    background-color: #ccc;
+    color: white;
+}
+
+dialog > button {
+    font-size: 0.8rem;
+    padding: 0.2em;
+    margin: 0.2em;
+}
+
+form > button {
+    margin: auto;
+    width: 50%;
+}
+
+.new-button {
+    transform: scale(1.2);
+    margin: auto;
+}
+
+
+
+
+@keyframes open {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes close {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
