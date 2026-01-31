@@ -9,6 +9,12 @@ function Book( title, author, pagesNbr, readState ) {
 Book.prototype.cleanNames = function () {
     this.title = this.title.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
     this.author = this.author.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
+    return this;
+}
+
+Book.prototype.cleanReadState = function () {
+    ( this.read === "Yes" ) ? this.read = true : this.read = false;
+    return this;
 }
 
 Book.prototype.info = function () {
@@ -22,19 +28,18 @@ Book.prototype.toggleRead = function () {
 Book.prototype.createCard = function () {
     const bookCard = document.createElement( "li" );
     const bookIntro = document.createElement( "h1" );
+    const bookErase = document.createElement( "button" );
     const readButton = document.createElement( "button" );
+    bookCard.dataset.id = this.id;
     bookIntro.textContent = this.info();
     displayReadButton( this, readButton );
     toggleReadButton( this, readButton );
-    libraryBoard.appendChild( bookCard ).append( bookIntro, readButton );
-}
-
-Book.prototype.eraseCard = function () {
-
+    bookErase.classList.add( "erase-button" );
+    bookErase.textContent = "X";
+    document.querySelector( "ul" ).appendChild( bookCard ).append( bookIntro, readButton, bookErase );
 }
 
 function addToLibrary( book ) {
-    book.cleanNames();
     myLibrary.push( book );
 }
 
@@ -55,39 +60,33 @@ function toggleReadButton( book, bookNode ) {
     } )
 }
 
-const myLibrary = [];
-const libraryBoard = document.querySelector( "ul" );
-const addBookButton = document.querySelector( ".new-button" );
-const dialogBox = document.querySelector( "dialog" )
-const closeDialogButton = document.querySelector( "dialog > button" )
-const form = document.querySelector( "form" )
+function removeBook() {
+    this.parentElement.remove();
+    myLibrary = myLibrary.filter( book => book.id !== this.parentElement.dataset.id );
+    console.log( myLibrary );
+}
 
-const newBook1 = new Book( "ThE Hobbit", "TolkIen", 295, true );
-const newBook2 = new Book( "Elephant Man", "Scott pip", 547, false );
+let myLibrary = [];
+const dialogBox = document.querySelector( "dialog" );
+const form = document.querySelector( "form" );
+const eraseButton = document.querySelectorAll( ".erase-button" );
 
-addToLibrary( newBook1 )
-addToLibrary( newBook2 )
+document.querySelector( ".new-button" ).addEventListener( "click", () => dialogBox.showModal() );
 
-addBookButton.addEventListener( "click", () => { dialogBox.showModal() } );
-
-closeDialogButton.addEventListener( "click", () => { dialogBox.close() } );
-
-myLibrary.forEach( book => {
-    book.createCard();
+document.querySelector( "dialog > button" ).addEventListener( "click", () => {
+    form.reset();
+    dialogBox.close();
 } );
+
+myLibrary.forEach( book => book.createCard() );
 
 form.addEventListener( "submit", function ( e ) {
     e.preventDefault();
-    const data = new FormData( form );
-    const arrayData = [];
-    for ( const [ name, value ] of data ) {
-        arrayData.push( value );
-    }
-    console.log( arrayData )
-    const newBook = new Book( "Elephant Man", "Scott pip", 547, false )
+    const newBook = new Book( form[ 0 ].value, form[ 1 ].value, form[ 2 ].value, document.querySelector( 'input[name="read-state"]:checked' ).value );
     addToLibrary( newBook );
-    myLibrary.at( -1 ).createCard();
+    myLibrary.at( -1 ).cleanNames().cleanReadState().createCard();
+    form.reset();
     dialogBox.close();
+    document.querySelectorAll( ".erase-button" ).forEach( btn => btn.removeEventListener( "click", removeBook ) );
+    document.querySelectorAll( ".erase-button" ).forEach( btn => btn.addEventListener( "click", removeBook ) );
 } )
-
-
