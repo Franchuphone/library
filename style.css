@@ -19,6 +19,10 @@ ul {
     list-style: none;
 }
 
+li {
+    overflow: auto;
+}
+
 li,
 button,
 dialog button:hover,
