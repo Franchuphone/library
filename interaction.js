@@ -1,43 +1,45 @@
-function Book( title, author, pagesNbr, readState ) {
-    this.title = title;
-    this.author = author;
-    this.pages = pagesNbr;
-    this.read = readState;
-    this.id = crypto.randomUUID();
-}
+class Book {
 
-Book.prototype.cleanNames = function () {
-    this.title = this.title.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
-    this.author = this.author.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
-    return this;
-}
+    constructor ( title, author, pagesNbr, readState ) {
+        this.title = title;
+        this.author = author;
+        this.pages = pagesNbr;
+        this.read = readState;
+        this.id = crypto.randomUUID();
+    }
 
-Book.prototype.cleanReadState = function () {
-    ( this.read === "Yes" ) ? this.read = true : this.read = false;
-    return this;
-}
+    cleanNames() {
+        this.title = this.title.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
+        this.author = this.author.split( " " ).map( ( word ) => word.charAt( 0 ).toUpperCase() + word.toLowerCase().slice( 1 ) ).join( " " );
+        return this;
+    }
 
-Book.prototype.info = function () {
-    return `${ this.title } \n ${ this.author } \n ${ this.pages } pages`;
-}
+    cleanReadState() {
+        ( this.read === "Yes" ) ? this.read = true : this.read = false;
+        return this;
+    }
+    info() {
+        return `${ this.title } \n ${ this.author } \n ${ this.pages } pages`;
+    }
 
-Book.prototype.toggleRead = function () {
-    ( this.read ) ? this.read = false : this.read = true;
-}
+    toggleRead() {
+        ( this.read ) ? this.read = false : this.read = true;
+    }
 
-Book.prototype.createCard = function () {
-    const bookCard = document.createElement( "li" );
-    const bookIntro = document.createElement( "h1" );
-    const bookErase = document.createElement( "button" );
-    const readButton = document.createElement( "button" );
-    bookCard.dataset.id = this.id;
-    bookIntro.textContent = this.info();
-    displayReadButton( this, readButton );
-    toggleReadButton( this, readButton );
-    bookErase.classList.add( "erase-button" );
-    bookErase.textContent = "X";
-    bookErase.addEventListener( "click", removeBook );
-    document.querySelector( "ul" ).appendChild( bookCard ).append( bookIntro, readButton, bookErase );
+    createCard() {
+        const bookCard = document.createElement( "li" );
+        const bookIntro = document.createElement( "h1" );
+        const bookErase = document.createElement( "button" );
+        const readButton = document.createElement( "button" );
+        bookCard.dataset.id = this.id;
+        bookIntro.textContent = this.info();
+        displayReadButton( this, readButton );
+        toggleReadButton( this, readButton );
+        bookErase.classList.add( "erase-button" );
+        bookErase.textContent = "X";
+        bookErase.addEventListener( "click", removeBook );
+        document.querySelector( "ul" ).appendChild( bookCard ).append( bookIntro, readButton, bookErase );
+    }
 }
 
 function addToLibrary( book ) {
