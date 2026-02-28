@@ -16,18 +16,14 @@
 
             <div class="add-book">
                 <dialog>
-                    <button autofocus>Close</button>
-                    <form action="" method="post">
+                    <form action="" method="post" novalidate>
                         <legend>All fields are required</legend>
                         <label for="book-title">Title</label>
-                        <input type="text" id="book-title" name="book-title" placeholder="Title"
-                            pattern="^[\w\d][\w\d\s]*$" required>
+                        <input type="text" id="book-title" name="book-title" placeholder="Title" required>
                         <label for="book-author">Author</label>
-                        <input type="text" id="book-author" name="book-author" placeholder="Author"
-                            pattern="^[\w\d][\w\d\s]*$" required>
+                        <input type="text" id="book-author" name="book-author" placeholder="Author" required>
                         <label for="book-pages">Number of pages</label>
-                        <input type="number" min="1" id="book-pages" name="book-pages" placeholder="Number of pages"
-                            required>
+                        <input type="text" id="book-pages" name="book-pages" placeholder="Number of pages" required>
                         <fieldset>
                             <legend>Have you actually read the book?</legend>
                             <div>
@@ -39,7 +35,10 @@
                                 <label for="not-read">No</label>
                             </div>
                         </fieldset>
-                        <button type="submit">Add book</button>
+                        <div class="buttons">
+                            <button autofocus type="button">Cancel</button>
+                            <button type="submit">Add book</button>
+                        </div>
 
                     </form>
                 </dialog>
